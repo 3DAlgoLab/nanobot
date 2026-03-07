@@ -89,11 +89,17 @@ class HeartbeatService:
         """
         response = await self.provider.chat(
             messages=[
-                {"role": "system", "content": "You are a heartbeat agent. Call the heartbeat tool to report your decision."},
-                {"role": "user", "content": (
-                    "Review the following HEARTBEAT.md and decide whether there are active tasks.\n\n"
-                    f"{content}"
-                )},
+                {
+                    "role": "system",
+                    "content": "You are a heartbeat agent. Call the heartbeat tool to report your decision.",
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        "Review the following HEARTBEAT.md and decide whether there are active tasks.\n\n"
+                        f"{content}"
+                    ),
+                },
             ],
             tools=_HEARTBEAT_TOOL,
             model=self.model,
@@ -157,6 +163,9 @@ class HeartbeatService:
             if self.on_execute:
                 response = await self.on_execute(tasks)
                 if response and self.on_notify:
+                    if "<NO NOTIFICATION>" in response:
+                        logger.info("Heartbeat: no notification needed")
+                        return
                     logger.info("Heartbeat: completed, delivering response")
                     await self.on_notify(response)
         except Exception:
