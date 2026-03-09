@@ -1,3 +1,14 @@
+#!/bin/bash
+
+# Stop Service
+systemctl --user stop --now nanobot-gateway
+
+# Install
 uv tool install .
-cd ~
-nanobot gateway 
+
+# Start Process
+# cd ~
+# nanobot gateway 
+
+# Start Service 
+systemctl --user start nanobot-gateway
