@@ -23,4 +23,5 @@ botpy.log
 
 uv.lock
 .vscode/
-experiments/config
+# config & workspace folder for nanobot
+experiments/dot_nanobot
