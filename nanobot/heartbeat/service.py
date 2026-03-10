@@ -163,9 +163,6 @@ class HeartbeatService:
             if self.on_execute:
                 response = await self.on_execute(tasks)
                 if response and self.on_notify:
-                    if "<NO NOTIFICATION>" in response:
-                        logger.info("Heartbeat: no notification needed")
-                        return
                     logger.info("Heartbeat: completed, delivering response")
                     await self.on_notify(response)
         except Exception:
